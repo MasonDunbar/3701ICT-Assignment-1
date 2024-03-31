@@ -8,13 +8,23 @@ export default  function Home({ navigation }) {
         <View style={styles.container}>
             <Text style={styles.title}>My To-do List</Text>
                 <View style={styles.itemBox}>
-                    <Text style={styles.item}>Clean my Car</Text>
-                    <Text style={styles.item}>Buy a Gift for Mother</Text>
-                    <Text style={styles.item}>Get a Haircut</Text>
-                    <Text style={styles.item}>Buy Groceries</Text>
-                    <Text style={styles.item}>Pay my Bills</Text>
+                    <View style={styles.item}>
+                      <Text style={styles.itemtext}>Clean my Car</Text>
+                    </View>
+                    <View style={styles.item}>
+                      <Text style={styles.itemtext}>Buy a Gift for Mother</Text>
+                    </View>
+                    <View style={styles.item}>
+                      <Text style={styles.itemtext}>Get a Haircut</Text>
+                    </View>
+                    <View style={styles.item}>
+                      <Text style={styles.itemtext}>Buy Groceries</Text>
+                    </View>
+                    <View style={styles.item}>
+                      <Text style={styles.itemtext}>Pay my Bills</Text>
+                    </View>
             </View>
-            <IconButton name="add-circle-outline" label="Add New Item" fun={navToNewItem}/>
+            <IconButton name="add-circle-outline" label="Add New To-Do" fun={navToNewItem}/>
             <StatusBar style="auto" />
         </View>
     );
@@ -47,13 +57,16 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   item: {
-    fontSize: 16,
+    
     borderWidth: 1,
     minHeight: '10%',
     backgroundColor: 'green',
     padding: 10,
     marginBottom: 5,
-    color: 'white',
+  },
+  itemtext: {
+    fontSize: 16,
+    color: "white",
   },
   button: {
     backgroundColor: 'blue',

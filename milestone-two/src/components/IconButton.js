@@ -1,7 +1,6 @@
 import { View, Text, StyleSheet, Pressable } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
-const navToNewItem = () => navigation.navigate('NewItem')
 export const IconButton = ({
     name,
     label,
@@ -11,10 +10,28 @@ export const IconButton = ({
 }) => {
     return (
         <Pressable onPress={fun}>
-            <View>
-                <Ionicons name={name} color="Black" size={60}/>
-                <Text>{label}</Text>
+            <View style={styles.container}>
+                <Ionicons name={name} color="white" size={30}/>
+                <Text style={styles.text}>{label}</Text>
             </View>
         </Pressable>
     );
 };
+
+const styles = StyleSheet.create({
+    container: {
+        width: 160,
+        height: 60,
+        borderWidth: 2,
+        borderColor: "black",
+        borderRadius: 5,
+        backgroundColor: "blue",
+        flexDirection: "row",
+        justifyContent: "space-evenly",
+        alignItems: "center",
+
+    },
+    text: {
+        color: "white",
+    },
+})
