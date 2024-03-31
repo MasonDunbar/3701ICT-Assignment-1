@@ -1,5 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
+import { IconButton } from "../components/IconButton";
 
 export default  function Home({ navigation }) {
     const navToNewItem = () => navigation.navigate('NewItem')
@@ -13,7 +14,7 @@ export default  function Home({ navigation }) {
                     <Text style={styles.item}>Buy Groceries</Text>
                     <Text style={styles.item}>Pay my Bills</Text>
             </View>
-            <Text style={styles.button} onPress={navToNewItem}>Add New To-do Item</Text>
+            <IconButton name="add-circle-outline" label="Add New Item" fun={navToNewItem}/>
             <StatusBar style="auto" />
         </View>
     );
