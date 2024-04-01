@@ -20,7 +20,7 @@ export const IconButton = ({
 
 const styles = StyleSheet.create({
     container: {
-        width: 160,
+        width: 180,
         height: 60,
         borderWidth: 2,
         borderColor: "black",
@@ -29,9 +29,11 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "space-evenly",
         alignItems: "center",
-
+        margin: 30,
     },
     text: {
         color: "white",
+        marginLeft: 10,
+        fontSize: 16,
     },
 })

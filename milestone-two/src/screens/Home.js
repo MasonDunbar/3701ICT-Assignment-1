@@ -57,7 +57,6 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   item: {
-    
     borderWidth: 1,
     minHeight: '10%',
     backgroundColor: 'green',
