@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
   },
   inputSmall: {
     height: '4%',
-    width: '40%',
+    width: '60%',
     borderWidth: 1,
     borderRadius: 5,
     padding: 5,
@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
   },
   inputBig: {
     height: '12%',
-    width: '40%',
+    width: '60%',
     borderWidth: 1,
     borderRadius: 5,
     padding: 5,
