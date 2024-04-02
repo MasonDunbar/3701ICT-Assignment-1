@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View } from 'react-native';
 import { IconButton } from "../components/IconButton";
-import { TextInput } from 'react-native-web';
+import { TextInput } from 'react-native';
 
 export default function NewItem ({navigation}) {
   const navGoBack = () => navigation.goBack()
