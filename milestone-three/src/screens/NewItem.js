@@ -2,19 +2,29 @@ import { StyleSheet, Text, View } from 'react-native';
 import { IconButton } from "../components/IconButton";
 import { TextInput } from 'react-native';
 import { useState } from 'react';
+import Modal from 'react-native-modal';
 
 export default function NewItem ({navigation}) {
   const navGoBack = () => navigation.goBack()
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   
+  const [isPopupVisible, setPopupVisible] = useState(false);
+  const togglePopup = () => {
+    setPopupVisible(!isPopupVisible);
+  };
+
   const addItemButton = () => {
     if (!title.trim() || !description.trim()){
       console.log("Empty")
       return;
     }
+    togglePopup();
+    setTitle("");
+    setDescription("");
     console.log("Input full")
   };
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>New Item</Text>
@@ -36,6 +46,14 @@ export default function NewItem ({navigation}) {
         />
       <IconButton name="backspace-outline" label="Cancel" fun={navGoBack}/>
       <IconButton name="save-outline" label="Save" fun={addItemButton}/>
+      <Modal isVisible={isPopupVisible}>
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+          <View style={{ backgroundColor: 'white', padding: 22 }}>
+            <Text>Todo Added Successfully</Text>
+            <IconButton name="close-outline" label="Close" fun={togglePopup} />
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 };
