@@ -1,33 +1,26 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 import { IconButton } from "../components/IconButton";
+import { TaskList } from "../components/TaskList";
 
 export default  function Home({ navigation }) {
-    const navToNewItem = () => navigation.navigate('NewItem')
-    return (
-        <View style={styles.container}>
-            <Text style={styles.title}>My To-do List</Text>
-                <View style={styles.itemBox}>
-                    <View style={styles.item}>
-                      <Text style={styles.itemtext}>Clean my Car</Text>
-                    </View>
-                    <View style={styles.item}>
-                      <Text style={styles.itemtext}>Buy a Gift for Mother</Text>
-                    </View>
-                    <View style={styles.item}>
-                      <Text style={styles.itemtext}>Get a Haircut</Text>
-                    </View>
-                    <View style={styles.item}>
-                      <Text style={styles.itemtext}>Buy Groceries</Text>
-                    </View>
-                    <View style={styles.item}>
-                      <Text style={styles.itemtext}>Pay my Bills</Text>
-                    </View>
-            </View>
-            <IconButton name="add-circle-outline" label="Add New To-Do" fun={navToNewItem}/>
-            <StatusBar style="auto" />
-        </View>
-    );
+  const navToNewItem = () => navigation.navigate('NewItem')
+  const data = [
+    { id: '1', title: 'Clean my Car'},
+    { id: '2', title: 'Get a Haircut'},
+    { id: '3', title: 'Buy Groceries'},
+    { id: '4', title: 'Pay my Bills'},        
+  ];
+  return (
+    <View style={styles.container}>
+      <Text style={styles.title}>My To-do List</Text>
+      <View style={styles.itemBox}>
+        <TaskList data={data}/>
+      </View>
+      <IconButton name="add-circle-outline" label="Add New To-Do" fun={navToNewItem}/>
+      <StatusBar style="auto" />
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
