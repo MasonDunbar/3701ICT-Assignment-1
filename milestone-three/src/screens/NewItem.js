@@ -44,7 +44,7 @@ export default function NewItem ({navigation}) {
         onChangeText={setDescription}
         style={styles.inputBig}
         />
-      <IconButton name="backspace-outline" label="Cancel" fun={navGoBack}/>
+      <IconButton name="backspace-outline" label="Back" fun={navGoBack}/>
       <IconButton name="save-outline" label="Save" fun={addItemButton}/>
       <Modal isVisible={isPopupVisible}>
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
