@@ -2,20 +2,29 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 import { IconButton } from "../components/IconButton";
 import { TaskList } from "../components/TaskList";
+import { useState } from 'react';
 
 export default  function Home({ navigation }) {
   const navToNewItem = () => navigation.navigate('NewItem')
-  const data = [
+  
+  const [data, setData] = useState([
     { id: '1', title: 'Clean my Car', description: 'Description for Task'},
     { id: '2', title: 'Get a Haircut', description: 'Description for Task'},
     { id: '3', title: 'Buy Groceries', description: 'Description for Task'},
     { id: '4', title: 'Pay my Bills', description: 'Description for Task'},        
-  ];
+  ]);
+
+  const updatedData = (newData) => {
+    setData(newData);
+  }
+
+
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>My To-do List</Text>
       <View style={styles.itemBox}>
-        <TaskList data={data}/>
+        <TaskList data={data} onDataChange={updatedData}/>
       </View>
       <IconButton name="add-circle-outline" label="Add New To-Do" fun={navToNewItem}/>
       <StatusBar style="auto" />

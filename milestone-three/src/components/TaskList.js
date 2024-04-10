@@ -2,26 +2,26 @@ import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native
 import {useState} from 'react';
 import { IconButton } from "../components/IconButton";
 
-export const TaskList = ({ data }) => {
-  
+export const TaskList = ({ data, onDataChange }) => {
     const [expandedItems, setExpandedItems] = useState({});
-    
+    const [completedItems, setCompletedItems] = useState({});
+
     const toggleExpand = (itemId) => {
         setExpandedItems(prevState => ({
             ...prevState,
             [itemId]: !prevState[itemId]
         }));
     };
-
-    const [completedItems, setCompletedItems] = useState({})
-
     const toggleComplete = (itemId) => {
         setCompletedItems(prevState => ({
             ...prevState,
             [itemId]: true
         }));
-    }
-    
+    };
+    const deleteItem = (itemId) => {
+        const newData = data.filter(item => item.id !== itemId);
+        onDataChange(newData);
+    };
     
     const renderItem = ({ item }) => (
         <View style={styles.item}>
@@ -30,7 +30,7 @@ export const TaskList = ({ data }) => {
             {expandedItems[item.id] && (
                 <View>
                     <Text style={styles.itemtext}>{item.description}</Text>
-                    <IconButton name="add-circle-outline" label="Delete"/>
+                    <IconButton name="add-circle-outline" label="Delete" fun={() => deleteItem(item.id)}/>
                     {!completedItems[item.id] && (
                         <IconButton name="add-circle-outline" label="Tick Complete" fun={() => toggleComplete(item.id)}/>
                     )}
