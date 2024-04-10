@@ -1,18 +1,38 @@
-import { View, Text, StyleSheet, FlatList} from 'react-native';
+import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
+import {useState} from 'react';
+import { IconButton } from "../components/IconButton";
 
 export const TaskList = ({ data }) => {
   
+    const [expandedItems, setExpandedItems] = useState({});
+    
+    const toggleExpand = (itemId) => {
+        setExpandedItems(prevState => ({
+            ...prevState,
+            [itemId]: !prevState[itemId]
+        }));
+    };
+    
     const renderItem = ({ item }) => (
-    <View style={styles.item}>
-      <Text style={styles.itemtext}>{item.title}</Text>
-    </View>
-  );
-  return (
-    <FlatList 
-      data={data}
-      renderItem={renderItem}
-    />
-  );
+        <View style={styles.item}>
+            <Text style={styles.itemtext}>{item.title}</Text>
+            <IconButton name="expand" fun={() => toggleExpand(item.id)}/>
+            {expandedItems[item.id] && (
+                <View>
+                    <Text style={styles.itemtext}>{item.description}</Text>
+                    <IconButton name="add-circle-outline" label="Delete"/>
+                    <IconButton name="add-circle-outline" label="Tick Complete"/>
+                </View>
+            )}
+        </View>
+    );
+    return (
+        <FlatList 
+        data={data}
+        renderItem={renderItem}
+        keyExtractor={item => item.id.toString()}
+        />
+    );
 };
 
 const styles = StyleSheet.create({

@@ -6,10 +6,10 @@ import { TaskList } from "../components/TaskList";
 export default  function Home({ navigation }) {
   const navToNewItem = () => navigation.navigate('NewItem')
   const data = [
-    { id: '1', title: 'Clean my Car'},
-    { id: '2', title: 'Get a Haircut'},
-    { id: '3', title: 'Buy Groceries'},
-    { id: '4', title: 'Pay my Bills'},        
+    { id: '1', title: 'Clean my Car', description: 'Description for Task'},
+    { id: '2', title: 'Get a Haircut', description: 'Description for Task'},
+    { id: '3', title: 'Buy Groceries', description: 'Description for Task'},
+    { id: '4', title: 'Pay my Bills', description: 'Description for Task'},        
   ];
   return (
     <View style={styles.container}>
