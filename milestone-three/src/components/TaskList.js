@@ -12,6 +12,16 @@ export const TaskList = ({ data }) => {
             [itemId]: !prevState[itemId]
         }));
     };
+
+    const [completedItems, setCompletedItems] = useState({})
+
+    const toggleComplete = (itemId) => {
+        setCompletedItems(prevState => ({
+            ...prevState,
+            [itemId]: true
+        }));
+    }
+    
     
     const renderItem = ({ item }) => (
         <View style={styles.item}>
@@ -21,7 +31,9 @@ export const TaskList = ({ data }) => {
                 <View>
                     <Text style={styles.itemtext}>{item.description}</Text>
                     <IconButton name="add-circle-outline" label="Delete"/>
-                    <IconButton name="add-circle-outline" label="Tick Complete"/>
+                    {!completedItems[item.id] && (
+                        <IconButton name="add-circle-outline" label="Tick Complete" fun={() => toggleComplete(item.id)}/>
+                    )}
                 </View>
             )}
         </View>
