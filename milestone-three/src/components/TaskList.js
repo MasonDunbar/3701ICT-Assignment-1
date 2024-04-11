@@ -1,28 +1,28 @@
-import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
-import {useState} from 'react';
+import { View, Text, StyleSheet, FlatList } from 'react-native';
+import { useEffect, useState } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { IconButton } from "../components/IconButton";
 
 export const TaskList = ({ data, onDataChange }) => {
     const [expandedItems, setExpandedItems] = useState({});
     const [completedItems, setCompletedItems] = useState({});
 
-    const toggleExpand = (itemId) => {
-        setExpandedItems(prevState => ({
-            ...prevState,
-            [itemId]: !prevState[itemId]
-        }));
+    useEffect(() => {
+        loadData();
+    }, [data]);
+
+    const loadData = async () => {
+        try {
+           const savedData = await AsyncStorage.getItem('taskData');
+           if (savedData !== null) {
+            setData(JSON.parse(savedData));
+           } 
+            
+        } catch (error) {
+            console.log("Error Loading Data", error);
+        }
     };
-    const toggleComplete = (itemId) => {
-        setCompletedItems(prevState => ({
-            ...prevState,
-            [itemId]: true
-        }));
-    };
-    const deleteItem = (itemId) => {
-        const newData = data.filter(item => item.id !== itemId);
-        onDataChange(newData);
-    };
-    
+
     const renderItem = ({ item }) => (
         <View style={styles.item}>
             <Text style={styles.itemtext}>{item.title}</Text>
@@ -38,6 +38,31 @@ export const TaskList = ({ data, onDataChange }) => {
             )}
         </View>
     );
+
+    const toggleExpand = (itemId) => {
+        setExpandedItems(prevState => ({
+            ...prevState,
+            [itemId]: !prevState[itemId]
+        }));
+    };
+
+    const toggleComplete = (itemId) => {
+        setCompletedItems(prevState => ({
+            ...prevState,
+            [itemId]: true
+        }));
+    };
+
+    const deleteItem = async (itemId) => {
+        try { 
+            const newData = data.filter(item => item.id !== itemId);
+            await AsyncStorage.setItem('taskData', JSON.stringify(newData));
+            onDataChange(newData);
+        } catch (error){
+            console.error("Error Deleting item:", error);
+        }
+    };
+    
     return (
         <FlatList 
         data={data}

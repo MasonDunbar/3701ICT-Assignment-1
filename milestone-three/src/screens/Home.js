@@ -2,21 +2,39 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 import { IconButton } from "../components/IconButton";
 import { TaskList } from "../components/TaskList";
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export default  function Home({ navigation }) {
+export default function Home({ navigation }) {
   const navToNewItem = () => navigation.navigate('NewItem')
-  
-  const [data, setData] = useState([
-    { id: '1', title: 'Clean my Car', description: 'Description for Task'},
-    { id: '2', title: 'Get a Haircut', description: 'Description for Task'},
-    { id: '3', title: 'Buy Groceries', description: 'Description for Task'},
-    { id: '4', title: 'Pay my Bills', description: 'Description for Task'},        
-  ]);
+  const [data, setData] = useState([]);
 
-  const updatedData = (newData) => {
-    setData(newData);
-  }
+  useEffect(() => {
+    loadData();
+    console.log("Home - Load Data - useEffect");
+  }, []);
+
+  const loadData = async () => {
+    try {
+      const savedData = await AsyncStorage.getItem('taskData');
+      if (savedData !== null) {
+        setData(JSON.parse(savedData));
+      }
+      console.log("Home - Load Data");
+    } catch (error) {
+      console.error('Error loading data:', error);
+    }
+  };
+
+  const handleDataChange = async (newData) => {
+    try {
+      setData(newData);
+      await AsyncStorage.setItem('taskData', JSON.stringify(newData));
+      console.log("Home - Update Data");
+    } catch (error) {
+      console.error('Error updating data:', error);
+    }
+  };
 
 
 
@@ -24,7 +42,7 @@ export default  function Home({ navigation }) {
     <View style={styles.container}>
       <Text style={styles.title}>My To-do List</Text>
       <View style={styles.itemBox}>
-        <TaskList data={data} onDataChange={updatedData}/>
+        <TaskList data={data} onDataChange={handleDataChange}/>
       </View>
       <IconButton name="add-circle-outline" label="Add New To-Do" fun={navToNewItem}/>
       <StatusBar style="auto" />

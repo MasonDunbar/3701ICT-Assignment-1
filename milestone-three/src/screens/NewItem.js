@@ -1,29 +1,49 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, TextInput } from 'react-native';
 import { IconButton } from "../components/IconButton";
-import { TextInput } from 'react-native';
 import { useState } from 'react';
 import Modal from 'react-native-modal';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function NewItem ({navigation}) {
   const navGoBack = () => navigation.goBack()
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
-  
   const [isPopupVisible, setPopupVisible] = useState(false);
+  
   const togglePopup = () => {
     setPopupVisible(!isPopupVisible);
   };
 
-  const addItemButton = () => {
-    if (!title.trim() || !description.trim()){
-      console.log("Empty")
-      return;
+  const addItemButton = async () => {
+    try {
+      if (!title.trim() || !description.trim()){
+        console.log("Empty")
+        return;
+      }
+      await addNewItem({id: Math.random().toString(), title, description });
+
+      togglePopup();
+      setTitle("");
+      setDescription("");
+      console.log("Input full");
+    } catch (error) {
+        console.error("Error Adding item:", error);
     }
-    togglePopup();
-    setTitle("");
-    setDescription("");
-    console.log("Input full")
   };
+  const addNewItem = async (newItem) => {
+    try {
+      const existingData = await AsyncStorage.getItem('taskData');
+      let newData = [];
+      if (existingData !== null) {
+        newData = JSON.parse(existingData);
+      }
+
+      newData.push(newItem);
+      await AsyncStorage.setItem('taskData', JSON.stringify(newData));
+    } catch (error) {
+      throw new Error('Error Adding item:', error);
+    }
+  }
 
   return (
     <View style={styles.container}>
