@@ -22,12 +22,12 @@ export default function NewItem ({navigation}) {
       }
       await addNewItem({id: Math.random().toString(), title, description });
 
-      togglePopup();
+      setPopupVisible(true);
       setTitle("");
       setDescription("");
-      console.log("Input full");
+      //console.log("Input full");
     } catch (error) {
-        console.error("Error Adding item:", error);
+        //console.error("Error Adding item:", error);
     }
   };
   const addNewItem = async (newItem) => {
@@ -42,7 +42,7 @@ export default function NewItem ({navigation}) {
       await AsyncStorage.setItem('taskData', JSON.stringify(newData));
       navigation.emit('refreshTaskList');
     } catch (error) {
-      throw new Error('Error Adding item:', error);
+      //throw new Error('Error Adding item:', error);
     }
   }
 
@@ -67,7 +67,7 @@ export default function NewItem ({navigation}) {
         />
       <IconButton name="backspace-outline" label="Back" fun={navGoBack}/>
       <IconButton name="save-outline" label="Save" fun={addItemButton}/>
-      <Modal isVisible={isPopupVisible}>
+      <Modal isVisible={isPopupVisible} onClose={() => setPopupVisible(false)}>
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
           <View style={{ backgroundColor: 'white', padding: 22 }}>
             <Text>Todo Added Successfully</Text>

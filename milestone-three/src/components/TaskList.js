@@ -13,13 +13,20 @@ export const TaskList = ({ data, onDataChange }) => {
 
     const loadData = async () => {
         try {
-           const savedData = await AsyncStorage.getItem('taskData');
-           if (savedData !== null) {
-            setData(JSON.parse(savedData));
-           } 
-            
+            const savedData = await AsyncStorage.getItem('taskData');
+            if (savedData !== null) {
+                const parsedData = JSON.parse(savedData);
+                const initalCompletedItems = {};
+                parsedData.forEach(item => {
+                    if (item.completed) {
+                        initalCompletedItems[item.id] = true;
+                    }
+                });
+                setCompletedItems(initalCompletedItems);
+                setData(parsedData);
+            } 
         } catch (error) {
-            console.log("Tasklist - Error Loading Data", error);
+            //console.log("Tasklist - Error Loading Data", error);
         }
     };
 
@@ -46,11 +53,20 @@ export const TaskList = ({ data, onDataChange }) => {
         }));
     };
 
-    const toggleComplete = (itemId) => {
-        setCompletedItems(prevState => ({
-            ...prevState,
-            [itemId]: true
-        }));
+    const toggleComplete = async (itemId) => {
+        try {
+            const updatedCompletedItems = { ...completedItems };
+            updatedCompletedItems[itemId] = !updatedCompletedItems[itemId];
+            setCompletedItems(updatedCompletedItems);
+
+            const newData = data.map(item =>
+                item.id === itemId ? {...item, completed: !completedItems[itemId]} : item
+            );
+            await AsyncStorage.setItem('taskData', JSON.stringify(newData));
+            onDataChange(newData);
+        } catch (error) {
+            console.error("Error Toggle", error)
+        }
     };
 
     const deleteItem = async (itemId) => {
