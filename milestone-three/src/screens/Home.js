@@ -1,18 +1,24 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
-import { IconButton } from "../components/IconButton";
-import { TaskList } from "../components/TaskList";
 import { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+import { IconButton } from "../components/IconButton";
+import { TaskList } from "../components/TaskList";
+
+
 export default function Home({ navigation }) {
   const navToNewItem = () => navigation.navigate('NewItem')
+
   const [data, setData] = useState([]);
 
   useEffect(() => {
     loadData();
-    console.log("Home - Load Data - useEffect");
-  }, []);
+    const updateNewItem = navigation.addListener('focus', () => {
+      loadData();
+    });
+    return updateNewItem;
+  }, [navigation]);
 
   const loadData = async () => {
     try {
@@ -20,9 +26,9 @@ export default function Home({ navigation }) {
       if (savedData !== null) {
         setData(JSON.parse(savedData));
       }
-      console.log("Home - Load Data");
+      //console.log("Home - Load Data");
     } catch (error) {
-      console.error('Error loading data:', error);
+      console.error('Home - Error loading data:', error);
     }
   };
 
@@ -30,13 +36,11 @@ export default function Home({ navigation }) {
     try {
       setData(newData);
       await AsyncStorage.setItem('taskData', JSON.stringify(newData));
-      console.log("Home - Update Data");
+      //console.log("Home - Update Data");
     } catch (error) {
-      console.error('Error updating data:', error);
+      console.error('Home - Error updating data:', error);
     }
   };
-
-
 
   return (
     <View style={styles.container}>

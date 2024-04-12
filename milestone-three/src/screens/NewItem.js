@@ -40,6 +40,7 @@ export default function NewItem ({navigation}) {
 
       newData.push(newItem);
       await AsyncStorage.setItem('taskData', JSON.stringify(newData));
+      navigation.emit('refreshTaskList');
     } catch (error) {
       throw new Error('Error Adding item:', error);
     }
