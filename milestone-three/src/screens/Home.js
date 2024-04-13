@@ -1,8 +1,9 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+import { Title } from "../components/Title";
 import { IconButton } from "../components/IconButton";
 import { TaskList } from "../components/TaskList";
 
@@ -44,7 +45,7 @@ export default function Home({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>My To-do List</Text>
+      <Title text={"My To-do List"}/>
       <View style={styles.itemBox}>
         <TaskList data={data} onDataChange={handleDataChange}/>
       </View>
@@ -61,14 +62,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     padding: 20,
-  },
-  title:{
-    textAlign: 'center',
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 60,
-    top: 40,
-    position: 'absolute',
   },
   itemBox: {
     width: '80%',

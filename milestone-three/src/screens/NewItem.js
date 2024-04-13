@@ -4,6 +4,8 @@ import { useState } from 'react';
 import Modal from 'react-native-modal';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
+import { Title } from "../components/Title";
+
 export default function NewItem ({navigation}) {
   const navGoBack = () => navigation.goBack()
   const [title, setTitle] = useState('');
@@ -48,33 +50,23 @@ export default function NewItem ({navigation}) {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>New Item</Text>
-      <Text style={styles.label}>Title</Text>
-      <TextInput 
-        placeholder="Add a Title for your task" 
-        value={title}
-        onChangeText={setTitle}
-        style={styles.inputSmall}
-      />
-      <Text style={styles.label}>Description</Text>
-      <TextInput 
-        placeholder="Add a Description for your task" 
-        multiline={true} 
-        numberOfLines={5} 
-        value={description}
-        onChangeText={setDescription}
-        style={styles.inputBig}
-        />
-      <IconButton name="backspace-outline" label="Back" fun={navGoBack}/>
-      <IconButton name="save-outline" label="Save" fun={addItemButton}/>
-      <Modal isVisible={isPopupVisible} onClose={() => setPopupVisible(false)}>
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-          <View style={{ backgroundColor: 'white', padding: 22 }}>
-            <Text>Todo Added Successfully</Text>
-            <IconButton name="close-outline" label="Close" fun={togglePopup} />
+      <Title text={"New To-do Item "}/>
+      <View style={styles.itemBox}>
+        <Text style={styles.label}>Title</Text>
+        <TextInput placeholder="Add a Title for your task" value={title} onChangeText={setTitle} style={styles.inputSmall}/>
+        <Text style={styles.label}>Description</Text>
+        <TextInput placeholder="Add a Description for your task" multiline={true} numberOfLines={5} value={description} onChangeText={setDescription} style={styles.inputBig}/>
+        <IconButton name="backspace-outline" label="Back" fun={navGoBack}/>
+        <IconButton name="save-outline" label="Save" fun={addItemButton}/>
+      </View>
+        <Modal isVisible={isPopupVisible} onClose={() => setPopupVisible(false)}>
+          <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+            <View style={{ backgroundColor: 'white', padding: 22 }}>
+              <Text>Todo Added Successfully</Text>
+              <IconButton name="close-outline" label="Close" fun={togglePopup} />
+            </View>
           </View>
-        </View>
-      </Modal>
+        </Modal>
     </View>
   );
 };
@@ -83,17 +75,20 @@ export default function NewItem ({navigation}) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
+    backgroundColor: '#f2f2f2',
     alignItems: 'center',
     justifyContent: 'center',
+    padding: 20,
   },
-  title:{
-    textAlign: 'center',
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 60,
-    top: 40,
-    position: 'absolute',
+  itemBox: {
+    width: '80%',
+    height: '70%',
+    borderWidth: 5,
+    borderColor: 'black',
+    borderRadius: 10,
+    padding: 10,
+    marginTop: 60,
+    marginBottom: 10,
   },
   label: {
     fontSize: 16,
