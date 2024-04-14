@@ -8,7 +8,6 @@ export const Title = ({ text }) => (
 
 const styles = StyleSheet.create({
   container: {
-    height: 40,
     justifyContent: "center",
     alignItems: "center",
   },
@@ -16,8 +15,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 44,
     fontWeight: 'bold',
-    marginBottom: 60,
+    marginBottom: 20,
     top: 40,
-    position: "absolute",
   },
 });

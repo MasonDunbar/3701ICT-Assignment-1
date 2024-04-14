@@ -1,9 +1,10 @@
 import { View, Text, StyleSheet, Pressable } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { borderColor, buttonColor } from "../constants/Color";
+import { buttonColor, borderColor, textColor } from "../constants/Color";
 
-export const IconButton = ({
+export const IconButtonText = ({
   name,
+  label,
   fun = () => {
   },
 }) => {
@@ -11,6 +12,7 @@ export const IconButton = ({
     <Pressable onPress={fun}>
       <View style={styles.container}>
         <Ionicons name={name} color="white" size={30}/>
+        <Text style={styles.text}>{label}</Text>
       </View>
     </Pressable>
   );
@@ -18,7 +20,7 @@ export const IconButton = ({
 
 const styles = StyleSheet.create({
   container: {
-    width: 100,
+    width: 150,
     height: 60,
     borderWidth: 2,
     borderColor: borderColor,
@@ -29,4 +31,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     margin: 10,
   },
-})
+  text: {
+    color: textColor,
+    fontSize: 15,
+  },
+});

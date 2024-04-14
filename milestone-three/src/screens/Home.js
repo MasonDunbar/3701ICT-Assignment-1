@@ -1,16 +1,15 @@
-import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, View } from 'react-native';
+import { StatusBar } from 'expo-status-bar';
 import { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { Title } from "../components/Title";
-import { IconButton } from "../components/IconButton";
+import { IconButtonText } from "../components/IconButtonText";
 import { TaskList } from "../components/TaskList";
-
+import { backgroundColor, itemContainerBackgroundColor, borderColor} from '../constants/Color';
 
 export default function Home({ navigation }) {
   const navToNewItem = () => navigation.navigate('NewItem')
-
   const [data, setData] = useState([]);
 
   useEffect(() => {
@@ -27,9 +26,8 @@ export default function Home({ navigation }) {
       if (savedData !== null) {
         setData(JSON.parse(savedData));
       }
-      //console.log("Home - Load Data");
     } catch (error) {
-      console.error('Home - Error loading data:', error);
+      console.log('Home - Error loading data:', error);
     }
   };
 
@@ -37,60 +35,40 @@ export default function Home({ navigation }) {
     try {
       setData(newData);
       await AsyncStorage.setItem('taskData', JSON.stringify(newData));
-      //console.log("Home - Update Data");
     } catch (error) {
-      console.error('Home - Error updating data:', error);
+      console.log('Home - Error updating data:', error);
     }
   };
 
   return (
     <View style={styles.container}>
+      <StatusBar style="auto" />
       <Title text={"My To-do List"}/>
       <View style={styles.itemBox}>
         <TaskList data={data} onDataChange={handleDataChange}/>
       </View>
-      <IconButton name="add-circle-outline" label="Add New To-Do" fun={navToNewItem}/>
-      <StatusBar style="auto" />
+      <IconButtonText name="add-circle-outline" label="Add New To-Do" fun={navToNewItem}/>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: backgroundColor,
     flex: 1,
-    backgroundColor: '#f2f2f2',
     alignItems: 'center',
     justifyContent: 'center',
     padding: 20,
   },
   itemBox: {
-    width: '80%',
-    height: '70%',
+    backgroundColor: itemContainerBackgroundColor,
+    width: '95%',
+    height: '75%',
+    borderColor: borderColor,
     borderWidth: 5,
-    borderColor: 'black',
     borderRadius: 10,
     padding: 10,
     marginTop: 60,
     marginBottom: 10,
-  },
-  item: {
-    borderWidth: 1,
-    minHeight: '10%',
-    backgroundColor: 'green',
-    padding: 10,
-    marginBottom: 5,
-  },
-  itemtext: {
-    fontSize: 16,
-    color: "white",
-  },
-  button: {
-    backgroundColor: 'blue',
-    padding: 10,
-    margin: 15,
-    borderRadius: 25,
-    textAlign: 'center',
-    overflow: 'hidden',
-    color: 'white',
   },
 });
